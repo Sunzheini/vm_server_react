@@ -1,14 +1,20 @@
-export default function Navigation() {
+export default function Navigation(props) {
     return (
         <nav className="nav-navigation">
             <ul className="ul-nav-list" role="list">
                 <li className="li-nav-item">
-                    <i className="fa-solid fa-house"></i>
-                    <a href="#">Home</a>
+                    <a href={props.navItems[0].link}>
+                        <i className={props.navItems[0].icon}></i>
+                        &nbsp;&nbsp;
+                        {props.navItems[0].linkText}
+                    </a>
                 </li>
                 <li className="li-nav-item">
-                    <i className="fa-solid fa-bars"></i>
-                    <a href="#">Test</a>
+                    <a href={props.navItems[0].link}>
+                        <i className={props.navItems[1].icon}></i>
+                        &nbsp;&nbsp;
+                        {props.navItems[1].linkText}
+                    </a>
                 </li>
             </ul>
         </nav>

@@ -1,7 +1,7 @@
-export default function Footer() {
+export default function Footer(props) {
     return (
         <footer className="footer">
-            <h3 className="footer-title">&copy; 2023</h3>
+            <h3 className="footer-title">{props.content}</h3>
         </footer>
     );
 }

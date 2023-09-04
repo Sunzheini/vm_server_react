@@ -1,16 +1,14 @@
-export default function AllSectionsContainer() {
+import CardDisplayTitle from "./CardDisplayTitle";
+import CardDisplayContent from "./CardDisplayContent";
+
+export default function AllSectionsContainer(props) {
     return (
         <div className="all-sections-container">
             <section className="display-content-section">
                 <div className="all-display-content-container">
                     <div className="card-display">
-                        <h2 className="card-display-title">Some Title</h2>
-                        <p className="card-display-content">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                            Animi architecto aspernatur consequatur dolorem eos, eveniet
-                            explicabo iste maiores, neque provident ratione repudiandae
-                            saepe sunt tempore vel voluptate voluptatibus! Ipsam, laboriosam!
-                        </p>
+                        <CardDisplayTitle title="Some Title"/>
+                        <CardDisplayContent content="Some Content 123"/>
                     </div>
                 </div>
             </section>
