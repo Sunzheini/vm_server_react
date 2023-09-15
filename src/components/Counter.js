@@ -1,8 +1,12 @@
 import React from 'react';
 
+
+const getTitle = (count) => {
+    return count === 0 ? 'First Blood' : 'You are a Godlike';
+}
+
 export default function Counter(props) {
     const [counter, setCounter] = React.useState(0);
-    const [title, setTitle] = React.useState('First Blood');
 
     const onButtonClickIncrement = (e) => {
         setCounter((prevCounter) => prevCounter + 1)
@@ -16,12 +20,18 @@ export default function Counter(props) {
         setCounter(0)
     }
 
+    const title = getTitle(counter);
+
     return (
         <div>
-            <h1>{title}</h1>
-            <h3>Counter: {counter}</h3>
+            {/* condition for the style */}
+            <h3 style={{fontSize: (counter + 1)/2 + 'em'}}>{title}: {counter}</h3>
             <button onClick={onButtonClickIncrement}>+</button>
-            <button onClick={onButtonClickReset}>Reset</button>
+            {/* Condition to show the button */}
+            {counter < 10 && props.canReset
+                ? <button onClick={onButtonClickReset}>Reset</button>
+                : null
+            }
             <button onClick={onButtonClickDecrement}>-</button>
         </div>
     )

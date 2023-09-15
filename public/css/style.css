@@ -2,7 +2,8 @@
 
 :root {
   --clr-main-bg: #F3F3F3;
-  --clr-nav-bg: #2aa8d5;
+  /*--clr-nav-bg: #2aa8d5;*/
+  --clr-nav-bg: #83a5e8;
   --clr-nav-white: #f5f2ed;
   --clr-nav-a: #111111;
   --clr-card-bg: #d9d5ce;
@@ -16,7 +17,7 @@ body {
 
 /*!* 2. Nav -----------------------------------------------------------------*!*/
 
-.header .nav-navigation {
+.nav-navigation {
   background-color: var(--clr-nav-bg);
   width: 50vw;
   max-width: 1500px;
@@ -30,7 +31,7 @@ body {
   border: 2px solid var(--clr-nav-white);
 }
 
-  .header .nav-navigation .ul-nav-list {
+  .ul-nav-list {
     height: 100%;
     width: 100%;
     display: flex;
@@ -39,7 +40,7 @@ body {
     align-items: center;
   }
 
-    .header .nav-navigation .ul-nav-list .li-nav-item {
+    .li-nav-item {
       height: 100%;
       padding: 0 1rem;
       display: flex;
@@ -49,13 +50,13 @@ body {
       gap: 0.5rem;
     }
 
-      .header .nav-navigation .ul-nav-list .li-nav-item a {
+      .li-nav-item a {
         color: var(--clr-nav-a);
         text-decoration: none;
         font-weight: bold;
       }
 
-      .header .nav-navigation .ul-nav-list .li-nav-item a:hover {
+      .li-nav-item a:hover {
         color: var(--clr-nav-white);
       }
 

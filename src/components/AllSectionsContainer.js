@@ -7,11 +7,17 @@ export default function AllSectionsContainer(props) {
             <section className="display-content-section">
                 <div className="all-display-content-container">
                     <div className="card-display">
-                        <CardDisplayTitle title="Some Title"/>
-                        <CardDisplayContent content="Some Content 123"/>
+
+                        {props.data.map((item) => (
+                            <div key={item.id}>
+                                <CardDisplayTitle title={item.name}/>
+                                <CardDisplayContent content={item.created_at}/>
+                            </div>
+                        ))}
+
                     </div>
                 </div>
             </section>
         </div>
-    )
+    );
 }
