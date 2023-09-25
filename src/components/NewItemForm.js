@@ -3,7 +3,10 @@ export default function NewItemForm(props) {
         <div className="new-item-form">
             <form>
                 <div>
+                    {/* Label */}
                     <label htmlFor="name">Name</label>
+
+                    {/* Input */}
                     <input
                         type="text"
                         name="name"
@@ -17,9 +20,29 @@ export default function NewItemForm(props) {
                 </div>
 
                 <div>
+                    {/* Label */}
+                    <label htmlFor="description">Description</label>
+
+                    {/* Select */}
+                    <select
+                        name="description"
+                        id="description"
+                        value={props.description}
+                        onChange={props.onChangeDesc}
+                    >
+                        <option value="1">Desc1</option>
+                        <option value="2">Desc2</option>
+                        <option value="3">Desc3</option>
+                    </select>
+
+                </div>
+
+                <div>
+                    {/* Button */}
                     <input
-                        type="submit"
+                        type="button"
                         value="Create"
+                        onClick={props.onSubmit}
                     />
                 </div>
             </form>

@@ -77,6 +77,7 @@ function App() {
 
     const [placeholderName, setPName] = React.useState('My Namez')
     const [name, setName] = React.useState('')
+    const [description, setDescription] = React.useState('3')
 
     React.useEffect(() => {
         setTimeout(() => {
@@ -85,8 +86,20 @@ function App() {
     }, [])
 
     const onUserNameChange = (e) => {
-        setName(e.target.value)
+        const newName = e.target.value;
+        setName(newName)
+        console.log(newName)
+    }
+
+    const onSubmitHandler = (e) => {
         console.log(name)
+        console.log(description)
+    }
+
+    const onChangeDesc = (e) => {
+        const newDescription = e.target.value;
+        setDescription(newDescription);
+        console.log(newDescription); // Log the updated value
     }
 
     // -------------------------------------------------------------
@@ -111,6 +124,8 @@ function App() {
                     <NewItemForm
                         placeholder={placeholderName}
                         onChange={onUserNameChange}
+                        onSubmit={onSubmitHandler}
+                        onChangeDesc={onChangeDesc}
                     />
                 </div>
             </main>
