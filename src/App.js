@@ -9,21 +9,27 @@ import PageTitle from "./components/PageTitle";
 import Timer from "./components/Timer";
 import Counter from "./components/Counter";
 import NewItemForm from "./components/NewItemForm";
+import SingleItemPage from "./components/SingleItemPage";
+
+import { SampleContext } from './contexts/SampleContext'
+
+import { Routes, Route, Link } from 'react-router-dom'
+
 
 
 const navItems = [
         {
             // always have id to use on keys
             id: 0,
-            icon: "fa-solid fa-house",
-            link: "#",
-            linkText: "Home"
+            // icon: "fa-solid fa-house",
+            link: <Link to="/"><i className="fa-solid fa-house"></i>&nbsp;&nbsp;Home</Link>,
+            // linkText: "Home"
         },
         {
             id: 1,
-            icon: "fa-solid fa-bars",
-            link: "#",
-            linkText: "Menu"
+            // icon: "fa-solid fa-bars",
+            link: <Link to="/menu"><i className="fa-solid fa-bars"></i>&nbsp;&nbsp;Menu</Link>,
+            // linkText: "Menu"
         }
     ]
 
@@ -76,8 +82,13 @@ function App() {
     // Forms
 
     const [placeholderName, setPName] = React.useState('My Namez')
-    const [name, setName] = React.useState('')
-    const [description, setDescription] = React.useState('3')
+    // const [name, setName] = React.useState('')
+    // const [description, setDescription] = React.useState('3')
+
+    const [formValues, setFormValues] = React.useState({
+        name: '',
+        description: '3'
+      });
 
     React.useEffect(() => {
         setTimeout(() => {
@@ -85,30 +96,44 @@ function App() {
         }   , 3000)
     }, [])
 
-    const onUserNameChange = (e) => {
-        const newName = e.target.value;
-        setName(newName)
-        console.log(newName)
+    const onChangeHandler = (e) => {
+        setFormValues(state => ({
+            ...state,
+            [e.target.name]: e.target.value
+        }))
     }
 
     const onSubmitHandler = (e) => {
-        console.log(name)
-        console.log(description)
-    }
-
-    const onChangeDesc = (e) => {
-        const newDescription = e.target.value;
-        setDescription(newDescription);
-        console.log(newDescription); // Log the updated value
+        e.preventDefault();
+        console.log(formValues.name);
     }
 
     // -------------------------------------------------------------
 
     return (
+        // Make SampleContext available to all components in the app
+        <SampleContext.Provider value={"something"}>
+
         <div className="App">
             <header className="header">
-                <Navigation navItems={navItems}/>
-                <PageTitle title="Main Menu"/>
+                <Routes>
+                    {/* if the route is /, render this */}
+                    <Route path='/' element={
+                        // if you want to render multiple components, wrap them in a div
+                        <div>
+                            <Navigation navItems={navItems}/>
+                            <PageTitle title="Main Menu"/>
+                        </div>
+                    } />
+
+                    {/* if the route is /about, render this */}
+                    <Route path='/menu' element={<h4>Menu</h4>} />
+
+                    {/* in all other cases */}
+                    <Route path='*' element={<h1>404</h1>} />
+
+                    <Route path="/item/:itemName" element={<SingleItemPage />} />
+                </Routes>
             </header>
             <main>
                 <div className="total-container">
@@ -123,9 +148,9 @@ function App() {
                     <HorizontalDivider/>
                     <NewItemForm
                         placeholder={placeholderName}
-                        onChange={onUserNameChange}
+                        onChange={onChangeHandler}
                         onSubmit={onSubmitHandler}
-                        onChangeDesc={onChangeDesc}
+                        formValues={formValues}
                     />
                 </div>
             </main>
@@ -136,7 +161,9 @@ function App() {
 
             {/* events */}
             <Counter canReset/>
+
         </div>
+        </SampleContext.Provider>
     );
 }
 

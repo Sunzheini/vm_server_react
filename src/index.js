@@ -4,13 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { BrowserRouter } from 'react-router-dom'
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    // in Development mode React.StrictMode renders twice!
-    // In production mode it renders only once.
-  //<React.StrictMode>
-    <App />
-  //</React.StrictMode>
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

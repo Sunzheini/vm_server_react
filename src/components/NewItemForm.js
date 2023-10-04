@@ -14,7 +14,7 @@ export default function NewItemForm(props) {
                         placeholder={props.placeholder}
 
                         // use this
-                        value={props.value}
+                        value={props.formValues.name}
                         onChange={props.onChange}
                     />
                 </div>
@@ -27,8 +27,8 @@ export default function NewItemForm(props) {
                     <select
                         name="description"
                         id="description"
-                        value={props.description}
-                        onChange={props.onChangeDesc}
+                        value={props.formValues.description}
+                        onChange={props.onChange}
                     >
                         <option value="1">Desc1</option>
                         <option value="2">Desc2</option>
