@@ -1,7 +1,7 @@
 import React from "react";
 import { useContext} from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {SampleContext} from "../contexts/SampleContext";
+import {SampleContext} from "../../contexts/SampleContext";
 
 
 export default function SingleItemPage() {

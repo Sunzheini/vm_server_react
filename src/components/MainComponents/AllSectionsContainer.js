@@ -18,6 +18,8 @@ export default function AllSectionsContainer(props) {
                                 </Link>
                                 <CardDisplayTitle title={item.name}/>
                                 <CardDisplayContent content={item.created_at}/>
+                                {/* delete button */}
+                                <button onClick={() => props.onDeleteHandler(item.id)}>Delete</button>
                             </div>
                         ))}
 

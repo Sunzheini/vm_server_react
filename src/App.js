@@ -1,37 +1,21 @@
 import './App.css';
 import React from 'react'
-import Navigation from "./components/Navigation";
-import HorizontalDivider from "./components/HorizontalDivider";
-import Footer from "./components/Footer";
-import MenuContainer from "./components/MenuContainer";
-import AllSectionsContainer from "./components/AllSectionsContainer";
-import PageTitle from "./components/PageTitle";
-import Timer from "./components/Timer";
-import Counter from "./components/Counter";
-import NewItemForm from "./components/NewItemForm";
-import SingleItemPage from "./components/SingleItemPage";
-
+import Footer from "./components/Footer/Footer";
+import Timer from "./components/Tools/Timer";
+import Counter from "./components/Tools/Counter";
+import Header from "./components/Header/Header";
 import { SampleContext } from './contexts/SampleContext'
-
 import { Routes, Route, Link } from 'react-router-dom'
-
-
-
-const navItems = [
-        {
-            // always have id to use on keys
-            id: 0,
-            // icon: "fa-solid fa-house",
-            link: <Link to="/"><i className="fa-solid fa-house"></i>&nbsp;&nbsp;Home</Link>,
-            // linkText: "Home"
-        },
-        {
-            id: 1,
-            // icon: "fa-solid fa-bars",
-            link: <Link to="/menu"><i className="fa-solid fa-bars"></i>&nbsp;&nbsp;Menu</Link>,
-            // linkText: "Menu"
-        }
-    ]
+import {createItem, deleteItem, getAll} from "./services/itemService";
+import PageTitle from "./components/MainComponents/PageTitle";
+import MenuContainer from "./components/MainComponents/MenuContainer";
+import HorizontalDivider from "./components/MainComponents/HorizontalDivider";
+import AllSectionsContainer from "./components/MainComponents/AllSectionsContainer";
+import NewItemForm from "./components/Forms/NewItemForm";
+import Login from "./components/Login/Login";
+import Users from "./components/Users/Users";
+import Vms from "./components/Vms/Vms";
+import {routes} from "./routes/routesList";
 
 
 const menuItems = [
@@ -72,11 +56,42 @@ function App() {
     const [data, setData] = React.useState([]);
 
     React.useEffect(() => {
-        fetch('http://127.0.0.1:8000/api/')
-            .then(response => response.json())
+        getAll()
             .then(data => setData(data))
             .catch(error => console.error('Fetch error:', error));
-    }, [])
+    }, []);
+
+    // -------------------------------------------------------------
+    // Post new Item to API
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
+
+    const newItem = {
+        name: formValues.name,
+    };
+
+    // Send a POST request to create the new item
+    createItem(newItem)
+        .then((createdItem) => {
+            // Update the data state to include the newly created item
+            setData((prevData) => [...prevData, createdItem]);
+            console.log('Item created:', createdItem);
+        })
+        .catch((error) => console.error('Fetch error:', error));
+    }
+
+    // Delete
+    const onDeleteHandler = (id) => {
+        // Send a DELETE request to delete the item
+        deleteItem(id)
+            .then(() => {
+                // Update the data state to remove the deleted item
+                setData((prevData) => prevData.filter((item) => item.id !== id));
+                console.log('Item deleted:', id);
+            })
+            .catch((error) => console.error('Fetch error:', error));
+    }
+
 
     // -------------------------------------------------------------
     // Forms
@@ -103,9 +118,11 @@ function App() {
         }))
     }
 
-    const onSubmitHandler = (e) => {
-        e.preventDefault();
-        console.log(formValues.name);
+    // -------------------------------------------------------------
+    // -------------------------------------------------------------
+
+    const onLoginButtonClick = () => {
+        console.log('Login button clicked');
     }
 
     // -------------------------------------------------------------
@@ -115,45 +132,88 @@ function App() {
         <SampleContext.Provider value={"something"}>
 
         <div className="App">
-            <header className="header">
-                <Routes>
-                    {/* if the route is /, render this */}
-                    <Route path='/' element={
-                        // if you want to render multiple components, wrap them in a div
-                        <div>
-                            <Navigation navItems={navItems}/>
-                            <PageTitle title="Main Menu"/>
-                        </div>
-                    } />
+            <Header/>
 
-                    {/* if the route is /about, render this */}
-                    <Route path='/menu' element={<h4>Menu</h4>} />
-
-                    {/* in all other cases */}
-                    <Route path='*' element={<h1>404</h1>} />
-
-                    <Route path="/item/:itemName" element={<SingleItemPage />} />
-                </Routes>
-            </header>
             <main>
-                <div className="total-container">
-                    <MenuContainer
-                        menuItems={newMenuItems}   // pass items
-                        onButtonClick={onButtonClick}
-                        onButtonSelect={onButtonSelect}
-                    />
-                    <HorizontalDivider/>
-                    <AllSectionsContainer data={data}/>
+                <Routes>
+                    <Route
+                        path={routes.home}
+                        element={
+                            <div>
+                                <PageTitle title="Main Menu"/>
 
-                    <HorizontalDivider/>
-                    <NewItemForm
-                        placeholder={placeholderName}
-                        onChange={onChangeHandler}
-                        onSubmit={onSubmitHandler}
-                        formValues={formValues}
+                                <div className="total-container">
+                                    <MenuContainer
+                                        menuItems={newMenuItems}   // pass items
+                                        onButtonClick={onButtonClick}
+                                        onButtonSelect={onButtonSelect}
+                                    />
+                                    <HorizontalDivider/>
+                                    <AllSectionsContainer
+                                        data={data}
+                                        onDeleteHandler={onDeleteHandler}
+                                    />
+
+                                    <HorizontalDivider/>
+                                    <NewItemForm
+                                        placeholder={placeholderName}
+                                        onChange={onChangeHandler}
+                                        onSubmit={onSubmitHandler}
+                                        formValues={formValues}
+                                    />
+                                </div>
+                            </div>
+                        }
                     />
-                </div>
+
+                    <Route
+                        path={routes.login}
+                        element={
+                            <div>
+                                <PageTitle title="Login"/>
+
+                                <div className="total-container">
+                                    <Login />
+                                </div>
+                            </div>
+                        }
+                    />
+
+                    <Route
+                        path={routes.users}
+                        element={
+                            <div>
+                                <PageTitle title="User Management"/>
+
+                                <div className="total-container">
+                                    <Users
+                                        data={data}
+                                        onDeleteHandler={onDeleteHandler}
+                                    />
+
+                                </div>
+                            </div>
+                        }
+                    />
+
+                    <Route
+                        path={routes.vms}
+                        element={
+                            <div>
+                                <PageTitle title="Virtual Machines"/>
+
+                                <div className="total-container">
+                                    <Vms
+                                        data={data}
+                                        onDeleteHandler={onDeleteHandler}
+                                    />
+                                </div>
+                            </div>
+                        }
+                    />
+                </Routes>
             </main>
+
             <Footer content="&copy; 2023"/>
 
             <Timer start={0}/>

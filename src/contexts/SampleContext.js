@@ -5,3 +5,4 @@ export const SampleContext = createContext(
         sample: 'default value',
     }
 );
+
