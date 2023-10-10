@@ -5,7 +5,7 @@ import Timer from "./components/Tools/Timer";
 import Counter from "./components/Tools/Counter";
 import Header from "./components/Header/Header";
 import { SampleContext } from './contexts/SampleContext'
-import { Routes, Route, Link } from 'react-router-dom'
+import {Routes, Route, Link, useParams} from 'react-router-dom'
 import {createItem, deleteItem, getAll} from "./services/itemService";
 import PageTitle from "./components/MainComponents/PageTitle";
 import MenuContainer from "./components/MainComponents/MenuContainer";
@@ -16,6 +16,15 @@ import Login from "./components/Login/Login";
 import Users from "./components/Users/Users";
 import Vms from "./components/Vms/Vms";
 import {routes} from "./routes/routesList";
+import {onLoginButtonClick} from "./services/loginService";
+import {
+  getAllUsers,
+  showUser,
+  editUser,
+  deleteUser,
+  addUser,
+} from './services/userService';
+import ShowUser from "./components/Users/ShowUser";
 
 
 const menuItems = [
@@ -35,15 +44,15 @@ const menuItems = [
 
 
 function App() {
-    // implement delete on buttons
+    // -------------------------------------------------------------
+    // ToDo: delete after
+    // -------------------------------------------------------------
     const [newMenuItems, setMenuItems] = React.useState(menuItems);
 
     const onButtonClick = (id) => {
         // setMenuItems(state => state.filter(x => x.id !== id))
         console.log(id)
     }
-    // -------------------------------------------------------------
-    // select button
 
     const onButtonSelect = (id) => {
         setMenuItems(state => state.map(x =>
@@ -52,7 +61,71 @@ function App() {
     }
 
     // -------------------------------------------------------------
-    // fetch data from API
+    // Users
+    // -------------------------------------------------------------
+    const [users, setUsers] = React.useState([]);
+
+    // get all users
+    React.useEffect(() => {
+        getAllUsers()
+            .then(data => setUsers(data))
+            .catch(error => console.error('Fetch error:', error));
+    }, []);
+
+    const getUserById = async (id) => {
+        try {
+            if (!id) {
+                console.error('Invalid id:', id);
+                return;
+            }
+
+            const user = await showUser(id);
+            // Do something with the user data
+            console.log('User:', user);
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    };
+
+    const updateUser = async (id, updatedData) => {
+        try {
+            const updatedUser = await editUser(id, updatedData);
+            // Do something with the updated user data
+            console.log('Updated User:', updatedUser);
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    };
+
+    const handleDeleteUser = async (id) => {
+        try {
+            await deleteUser(id);
+            // Handle any post-deletion tasks
+            console.log('User deleted:', id);
+            // Update the users state to reflect the deletion
+            setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    };
+
+    const createUser = async (newUserData) => {
+        try {
+            console.log('Creating user with data:', newUserData);
+            const createdUser = await addUser(newUserData);
+            // Do something with the created user data
+            console.log('Created User:', createdUser);
+            // Update the users state to include the newly created user
+            setUsers((prevUsers) => [...prevUsers, createdUser]);
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    };
+    // -------------------------------------------------------------
+
+    // -------------------------------------------------------------
+    // ToDo: delete after
+    // -------------------------------------------------------------
     const [data, setData] = React.useState([]);
 
     React.useEffect(() => {
@@ -61,7 +134,6 @@ function App() {
             .catch(error => console.error('Fetch error:', error));
     }, []);
 
-    // -------------------------------------------------------------
     // Post new Item to API
     const onSubmitHandler = (e) => {
         e.preventDefault();
@@ -91,7 +163,7 @@ function App() {
             })
             .catch((error) => console.error('Fetch error:', error));
     }
-
+    // -------------------------------------------------------------
 
     // -------------------------------------------------------------
     // Forms
@@ -121,9 +193,7 @@ function App() {
     // -------------------------------------------------------------
     // -------------------------------------------------------------
 
-    const onLoginButtonClick = () => {
-        console.log('Login button clicked');
-    }
+
 
     // -------------------------------------------------------------
 
@@ -166,18 +236,15 @@ function App() {
                         }
                     />
 
-                    <Route
-                        path={routes.login}
-                        element={
-                            <div>
-                                <PageTitle title="Login"/>
+                    <Route path={routes.login} element={
+                        <div>
+                            <PageTitle title="Login"/>
 
-                                <div className="total-container">
-                                    <Login />
-                                </div>
+                            <div className="total-container">
+                                <Login onLoginButtonClick={onLoginButtonClick}/>
                             </div>
-                        }
-                    />
+                        </div>
+                    }/>
 
                     <Route
                         path={routes.users}
@@ -187,10 +254,24 @@ function App() {
 
                                 <div className="total-container">
                                     <Users
-                                        data={data}
-                                        onDeleteHandler={onDeleteHandler}
+                                        data={users}
+                                        onShowHandler={getUserById}
+                                        onUpdateHandler={updateUser}
+                                        onDeleteHandler={handleDeleteUser}
+                                        onCreateHandler={createUser}
                                     />
+                                </div>
+                            </div>
+                        }
+                    />
 
+                    <Route
+                        path={routes.user}
+                        element={
+                            <div>
+                                <PageTitle title="User"/>
+                                <div className="total-container">
+                                    <ShowUser />
                                 </div>
                             </div>
                         }

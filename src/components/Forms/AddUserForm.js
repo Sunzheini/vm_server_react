@@ -1,6 +1,6 @@
-export default function LoginForm(props) {
+export default function AddUserForm(props) {
     return (
-        <div className="login-form">
+        <div className="add-user-form">
             <form>
                 <div>
                     {/* Label */}
@@ -29,11 +29,31 @@ export default function LoginForm(props) {
                 </div>
 
                 <div>
+                    {/* Label */}
+                    <label htmlFor="is_admin">Admin: </label>
+
+                    {/* Input */}
+                    <input
+                        type="checkbox"
+                        name="is_admin"
+                        id="is_admin"
+                    />
+                </div>
+
+                <div>
                     {/* Button */}
                     <input
                         type="button"
-                        value="Login"
-                        onClick={props.onLoginButtonClick}
+                        value="Add User"
+                        // onClick={props.onCreateHandler}
+                        onClick={() => {
+                            const formData = {
+                                username: document.getElementById('username').value,
+                                password: document.getElementById('password').value,
+                                is_admin: document.getElementById('is_admin').checked,
+                            };
+                            props.onCreateHandler(formData);
+                        }}
                     />
                 </div>
             </form>
