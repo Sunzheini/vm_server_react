@@ -1,20 +1,12 @@
 import './App.css';
 import React from 'react'
 import Footer from "./components/Footer/Footer";
-import Timer from "./components/Tools/Timer";
-import Counter from "./components/Tools/Counter";
 import Header from "./components/Header/Header";
 import { SampleContext } from './contexts/SampleContext'
-import {Routes, Route, Link, useParams} from 'react-router-dom'
-import {createItem, deleteItem, getAll} from "./services/itemService";
+import {Routes, Route, Link, useParams, useNavigate} from 'react-router-dom'
 import PageTitle from "./components/MainComponents/PageTitle";
-import MenuContainer from "./components/MainComponents/MenuContainer";
-import HorizontalDivider from "./components/MainComponents/HorizontalDivider";
-import AllSectionsContainer from "./components/MainComponents/AllSectionsContainer";
-import NewItemForm from "./components/Forms/NewItemForm";
 import Login from "./components/Login/Login";
 import Users from "./components/Users/Users";
-import Vms from "./components/Vms/Vms";
 import {routes} from "./routes/routesList";
 import {onLoginButtonClick} from "./services/loginService";
 import {
@@ -25,77 +17,64 @@ import {
   addUser,
 } from './services/userService';
 import ShowUser from "./components/Users/ShowUser";
-
-
-const menuItems = [
-    {
-        id: 0,
-        icon: "fa-solid fa-angles-left",
-        link: "#",
-        linkText: "Back"
-    },
-    {
-        id: 1,
-        icon: "fa-solid fa-landmark-flag",
-        link: "#",
-        linkText: "Test"
-    }
-]
+import {contentFieldUsers} from "./contexts/ContentFields";
 
 
 function App() {
     // -------------------------------------------------------------
-    // ToDo: delete after
-    // -------------------------------------------------------------
-    const [newMenuItems, setMenuItems] = React.useState(menuItems);
-
-    const onButtonClick = (id) => {
-        // setMenuItems(state => state.filter(x => x.id !== id))
-        console.log(id)
-    }
-
-    const onButtonSelect = (id) => {
-        setMenuItems(state => state.map(x =>
-            ({...x, selected: x.id === id})
-        ))
-    }
-
-    // -------------------------------------------------------------
     // Users
     // -------------------------------------------------------------
     const [users, setUsers] = React.useState([]);
+
+    const updateUser = async (id, updatedData) => {
+        try {
+            const updatedUser = await editUser(id, updatedData);
+
+            console.log('Updated user:', updatedUser)
+
+            if (updatedUser) {
+                // Update the users state with the new data
+                setUsers((prevUsers) =>
+                    prevUsers.map((user) =>
+                        user.id === id ? {...user, ...updatedUser} : user
+                    )
+                );
+
+                console.log('Updated users state:', users)
+
+                return updatedUser; // Return the updated user data
+            } else {
+                return null; // Handle errors and return null
+            }
+        } catch (error) {
+            console.error('Fetch error:', error);
+            return null; // Handle errors and return null
+        }
+    };
 
     // get all users
     React.useEffect(() => {
         getAllUsers()
             .then(data => setUsers(data))
             .catch(error => console.error('Fetch error:', error));
-    }, []);
+    }, [updateUser]);
 
     const getUserById = async (id) => {
         try {
             if (!id) {
                 console.error('Invalid id:', id);
-                return;
+                return null; // Return null for invalid IDs
             }
 
             const user = await showUser(id);
-            // Do something with the user data
-            console.log('User:', user);
+            return user; // Return the user data
         } catch (error) {
             console.error('Fetch error:', error);
+            return null; // Handle errors and return null
         }
     };
 
-    const updateUser = async (id, updatedData) => {
-        try {
-            const updatedUser = await editUser(id, updatedData);
-            // Do something with the updated user data
-            console.log('Updated User:', updatedUser);
-        } catch (error) {
-            console.error('Fetch error:', error);
-        }
-    };
+
 
     const handleDeleteUser = async (id) => {
         try {
@@ -123,80 +102,6 @@ function App() {
     };
     // -------------------------------------------------------------
 
-    // -------------------------------------------------------------
-    // ToDo: delete after
-    // -------------------------------------------------------------
-    const [data, setData] = React.useState([]);
-
-    React.useEffect(() => {
-        getAll()
-            .then(data => setData(data))
-            .catch(error => console.error('Fetch error:', error));
-    }, []);
-
-    // Post new Item to API
-    const onSubmitHandler = (e) => {
-        e.preventDefault();
-
-    const newItem = {
-        name: formValues.name,
-    };
-
-    // Send a POST request to create the new item
-    createItem(newItem)
-        .then((createdItem) => {
-            // Update the data state to include the newly created item
-            setData((prevData) => [...prevData, createdItem]);
-            console.log('Item created:', createdItem);
-        })
-        .catch((error) => console.error('Fetch error:', error));
-    }
-
-    // Delete
-    const onDeleteHandler = (id) => {
-        // Send a DELETE request to delete the item
-        deleteItem(id)
-            .then(() => {
-                // Update the data state to remove the deleted item
-                setData((prevData) => prevData.filter((item) => item.id !== id));
-                console.log('Item deleted:', id);
-            })
-            .catch((error) => console.error('Fetch error:', error));
-    }
-    // -------------------------------------------------------------
-
-    // -------------------------------------------------------------
-    // Forms
-
-    const [placeholderName, setPName] = React.useState('My Namez')
-    // const [name, setName] = React.useState('')
-    // const [description, setDescription] = React.useState('3')
-
-    const [formValues, setFormValues] = React.useState({
-        name: '',
-        description: '3'
-      });
-
-    React.useEffect(() => {
-        setTimeout(() => {
-            setPName('My Name')
-        }   , 3000)
-    }, [])
-
-    const onChangeHandler = (e) => {
-        setFormValues(state => ({
-            ...state,
-            [e.target.name]: e.target.value
-        }))
-    }
-
-    // -------------------------------------------------------------
-    // -------------------------------------------------------------
-
-
-
-    // -------------------------------------------------------------
-
     return (
         // Make SampleContext available to all components in the app
         <SampleContext.Provider value={"something"}>
@@ -213,24 +118,7 @@ function App() {
                                 <PageTitle title="Main Menu"/>
 
                                 <div className="total-container">
-                                    <MenuContainer
-                                        menuItems={newMenuItems}   // pass items
-                                        onButtonClick={onButtonClick}
-                                        onButtonSelect={onButtonSelect}
-                                    />
-                                    <HorizontalDivider/>
-                                    <AllSectionsContainer
-                                        data={data}
-                                        onDeleteHandler={onDeleteHandler}
-                                    />
 
-                                    <HorizontalDivider/>
-                                    <NewItemForm
-                                        placeholder={placeholderName}
-                                        onChange={onChangeHandler}
-                                        onSubmit={onSubmitHandler}
-                                        formValues={formValues}
-                                    />
                                 </div>
                             </div>
                         }
@@ -259,6 +147,7 @@ function App() {
                                         onUpdateHandler={updateUser}
                                         onDeleteHandler={handleDeleteUser}
                                         onCreateHandler={createUser}
+                                        contentField={contentFieldUsers}
                                     />
                                 </div>
                             </div>
@@ -271,7 +160,11 @@ function App() {
                             <div>
                                 <PageTitle title="User"/>
                                 <div className="total-container">
-                                    <ShowUser />
+                                    <ShowUser
+                                        onShowHandler={getUserById}
+                                        onUpdateHandler={updateUser}
+                                        userId={useParams().id}
+                                    />
                                 </div>
                             </div>
                         }
@@ -284,10 +177,6 @@ function App() {
                                 <PageTitle title="Virtual Machines"/>
 
                                 <div className="total-container">
-                                    <Vms
-                                        data={data}
-                                        onDeleteHandler={onDeleteHandler}
-                                    />
                                 </div>
                             </div>
                         }
@@ -296,12 +185,6 @@ function App() {
             </main>
 
             <Footer content="&copy; 2023"/>
-
-            <Timer start={0}/>
-            <br/>
-
-            {/* events */}
-            <Counter canReset/>
 
         </div>
         </SampleContext.Provider>

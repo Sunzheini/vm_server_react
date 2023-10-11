@@ -13,6 +13,7 @@ export const getAllUsers = async () => {
 export const showUser = async (id) => {
     const response = await fetch(showUserUrl + id + '/');
     const result = await response.json();
+    // console.log('Received user data from showUser:', result); // Add this line
     return result;
 }
 
