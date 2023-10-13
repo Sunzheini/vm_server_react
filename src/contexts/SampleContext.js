@@ -2,6 +2,13 @@ import {createContext, useContext, useState} from 'react';
 
 export const SampleContext = createContext(
     {
-        sample: 'default value',
     }
 );
+
+export const authContext = createContext(
+    {
+        token: null,
+        setToken: () => {},
+    }
+);
+

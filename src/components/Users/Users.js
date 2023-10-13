@@ -11,19 +11,14 @@ export default function Users(props) {
             <AllSectionsContainer
                 data={props.data}
                 titleField="username"
-                // contentField="is_admin"
-
-                // contentField={["is_admin"]}
-
-                // contentField={{
-                //     "is_admin": "Admin",
-                // }}
 
                 contentField={props.contentField}
                 onDeleteHandler={props.onDeleteHandler}
                 onShowHandler={props.onShowHandler}
                 onUpdateHandler={props.onUpdateHandler}
                 onCreateHandler={props.onCreateHandler}
+
+                page="user"
             />
 
             <HorizontalDivider/>

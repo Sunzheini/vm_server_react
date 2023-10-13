@@ -4,6 +4,9 @@ import {Link} from "react-router-dom";
 import React from "react";
 
 export default function AllSectionsContainer(props) {
+    const isUserPage = props.page === "user"; // Replace "user" with the appropriate page name
+    const isVMPage = props.page === "vm"; // Replace "vm" with the appropriate page name
+
     return (
         <div className="all-sections-container">
             <section className="display-content-section">
@@ -14,16 +17,6 @@ export default function AllSectionsContainer(props) {
                             <div key={item.id}>
                                 <CardDisplayTitle title={item[props.titleField]} />
                                 <CardDisplayContent
-                                    // content={item[props.contentField] ? 'Admin' : 'Regular'}
-
-                                    // content={props.contentField.map((field) => (
-                                    //     <div style={
-                                    //         item[field] ? {color: 'green'} : {color: 'grey'}
-                                    //     }>
-                                    //         {item[field] ? 'Admin: ' + item[field] : 'Admin: ' + item[field]}
-                                    //     </div>
-                                    // ))}
-
                                     content={Object.keys(props.contentField).map((field) => (
                                         <div
                                             key={field}
@@ -38,9 +31,21 @@ export default function AllSectionsContainer(props) {
                                  {/*delete button*/}
                                 <button onClick={() => props.onDeleteHandler(item.id)}>Delete</button>
 
-                                <Link to={`/user/${item.id}`}>
-                                    <button>Update User</button>
-                                </Link>
+                                {
+                                    isUserPage && (
+                                        <Link to={`/user/${item.id}`}>
+                                            <button>Update User</button>
+                                        </Link>
+                                    )
+                                }
+
+                                {
+                                    isVMPage && (
+                                        <Link to={`/vm/${item.id}`}>
+                                            <button>Update VM</button>
+                                        </Link>
+                                    )
+                                }
                             </div>
                         ))}
                     </div>

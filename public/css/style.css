@@ -71,7 +71,7 @@ h1.page-title {
   background-color: var(--clr-nav-bg);
   width: 50vw;
   max-width: 1500px;
-  height: 30rem;
+  min-height: 2rem;
   margin: 0.5rem auto 1rem auto;
   padding: 0.3rem;
   border-radius: 1rem;
@@ -169,3 +169,9 @@ h1.page-title {
     color: var(--clr-nav-a);
     margin: 1rem 0;
   }
+
+
+
+.user, .vm {
+    text-align: left;
+}
