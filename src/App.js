@@ -2,7 +2,7 @@ import './App.css';
 import React from 'react'
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
-import { SampleContext } from './contexts/SampleContext'
+import { CustomContext, } from './contexts/CustomContext'
 import {Routes, Route, Link, useParams, useNavigate } from 'react-router-dom'
 import PageTitle from "./components/MainComponents/PageTitle";
 import Login from "./components/Login/Login";
@@ -212,21 +212,25 @@ function App() {
     // -------------------------------------------------------------
     // Login
     // -------------------------------------------------------------
+    const navigate = useNavigate();
     const [auth, setAuth] = React.useState({});
 
     const loginUrl = 'http://127.0.0.1:8000/api/login/';
 
-    const onLoginButtonClick = async (formData) => {
-        //const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    console.log("Auth:", auth)
 
-        console.log("Form Data2:", formData);
+    const isAuthenticated = () => {
+        return !!auth.result.token;
+    }
+
+    const onLoginButtonClick = async (formData) => {
+        console.log("Form Data in Function:", formData);
 
         try {
             const response = await fetch(loginUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    //'X-CSRFToken': csrfToken,
                 },
                 body: JSON.stringify(formData),
             });
@@ -235,9 +239,13 @@ function App() {
                 const result = await response.json();
                 console.log("Login success. Result:", result);
 
-                // Save the token to local storage
-                localStorage.setItem('token', result.token);
+                // setAuth({token: result.token});
+                setAuth({result, isAuthenticated});
+
                 console.log("Token:", result.token)     // Token: Daniel Zorov
+
+                // Redirect to home
+                navigate(routes.home);
 
                 return result; // Return the result
             } else {
@@ -255,7 +263,7 @@ function App() {
     // -------------------------------------------------------------
     return (
         // Make SampleContext available to all components in the app
-        <SampleContext.Provider value={1}>
+        <CustomContext.Provider value={auth}>
 
         <div className="App">
             <Header/>
@@ -363,7 +371,7 @@ function App() {
             <Footer content="&copy; 2023"/>
 
         </div>
-        </SampleContext.Provider>
+        </CustomContext.Provider>
     );
 }
 

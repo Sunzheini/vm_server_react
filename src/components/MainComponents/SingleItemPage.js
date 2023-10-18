@@ -1,7 +1,7 @@
 import React from "react";
 import { useContext} from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {SampleContext} from "../../contexts/SampleContext";
+import {CustomContext} from "../../contexts/CustomContext";
 
 
 export default function SingleItemPage() {
@@ -12,7 +12,7 @@ export default function SingleItemPage() {
   const navigate = useNavigate();
 
   // Use useContext to get the sample value from the SampleContext
-  const sample  = useContext(SampleContext);
+  const sample  = useContext(CustomContext);
 
   return (
     <div className="all-sections-container">

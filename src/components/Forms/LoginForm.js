@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, } from "react";
 
 export default function LoginForm(props) {
     const [formData, setFormData] = useState({
@@ -19,7 +19,7 @@ export default function LoginForm(props) {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        console.log("Form Data1:", formData);
+        console.log("Form Data in LoginForm:", formData);
 
         if (!formData.username || !formData.password) {
             setError("Please provide both username and password.");
@@ -30,6 +30,7 @@ export default function LoginForm(props) {
             setLoading(true);
             setError(null);
 
+            // const result = await props.onLoginButtonClick(formData);
             const result = await props.onLoginButtonClick(formData);
 
             if (result.token) {
