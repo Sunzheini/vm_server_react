@@ -1,8 +1,15 @@
+// home pc
 const usersListUrl = 'http://127.0.0.1:8000/api/users/users-list/';
 const showUserUrl = 'http://127.0.0.1:8000/api/users/show-user/';
 const editUserUrl = 'http://127.0.0.1:8000/api/users/edit-user/';
 const deleteUserUrl = 'http://127.0.0.1:8000/api/users/delete-user/';
 const addUserUrl = 'http://127.0.0.1:8000/api/users/add-user/';
+// office
+// const usersListUrl = 'http://172.23.139.33:8000/api/users/users-list/';
+// const showUserUrl = 'http://172.23.139.33:8000/api/users/show-user/';
+// const editUserUrl = 'http://172.23.139.33:8000/api/users/edit-user/';
+// const deleteUserUrl = 'http://172.23.139.33:8000/api/users/delete-user/';
+// const addUserUrl = 'http://172.23.139.33:8000/api/users/add-user/';
 
 export const getAllUsers = async () => {
     const response = await fetch(usersListUrl);

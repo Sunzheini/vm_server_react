@@ -215,7 +215,10 @@ function App() {
     const navigate = useNavigate();
     const [auth, setAuth] = React.useState({});
 
+    // home pc
     const loginUrl = 'http://127.0.0.1:8000/api/login/';
+    // office
+    // const loginUrl = 'http://172.23.139.33:8000/api/login/';
 
     console.log("Auth:", auth)
 

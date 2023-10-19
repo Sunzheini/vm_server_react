@@ -1,8 +1,15 @@
+// home pc
 const vmsListUrl = 'http://127.0.0.1:8000/api/vms/vms-list/';
 const showVmUrl = 'http://127.0.0.1:8000/api/vms/show-vm/';
 const editVmUrl = 'http://127.0.0.1:8000/api/vms/edit-vm/';
 const deleteVmUrl = 'http://127.0.0.1:8000/api/vms/delete-vm/';
 const addVmUrl = 'http://127.0.0.1:8000/api/vms/add-vm/';
+// office
+// const vmsListUrl = 'http://172.23.139.33:8000/api/vms/vms-list/';
+// const showVmUrl = 'http://172.23.139.33:8000/api/vms/show-vm/';
+// const editVmUrl = 'http://172.23.139.33:8000/api/vms/edit-vm/';
+// const deleteVmUrl = 'http://172.23.139.33:8000/api/vms/delete-vm/';
+// const addVmUrl = 'http://172.23.139.33:8000/api/vms/add-vm/';
 
 export const getAllVms = async () => {
     const response = await fetch(vmsListUrl);
