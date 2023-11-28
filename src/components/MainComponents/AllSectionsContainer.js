@@ -1,11 +1,13 @@
 import CardDisplayTitle from "./CardDisplayTitle";
 import CardDisplayContent from "./CardDisplayContent";
 import {Link} from "react-router-dom";
-import React from "react";
+import React, {useContext} from "react";
+import {CustomContext} from "../../contexts/CustomContext";
 
 export default function AllSectionsContainer(props) {
     const isUserPage = props.page === "user"; // Replace "user" with the appropriate page name
     const isVMPage = props.page === "vm"; // Replace "vm" with the appropriate page name
+    const {result, isAuthenticated} = useContext(CustomContext);
 
     return (
         <div className="all-sections-container">
@@ -29,7 +31,9 @@ export default function AllSectionsContainer(props) {
                                 />
 
                                  {/*delete button*/}
-                                <button onClick={() => props.onDeleteHandler(item.id)}>Delete</button>
+                                {/* show only if auth */}
+                                {/*<button onClick={() => props.onDeleteHandler(item.id)}>Delete</button>*/}
+                                {isAuthenticated && <button onClick={() => props.onDeleteHandler(item.id)}>Delete</button>}
 
                                 {
                                     isUserPage && (

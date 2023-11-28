@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import EditVmForm from "../Forms/EditVmForm";
+import VmStatus from "./VmStatus";
 
 export default function ShowVm(props) {
     const { id } = useParams();
@@ -8,13 +9,11 @@ export default function ShowVm(props) {
 
     const [isEditing, setEditing] = useState(false); // Add this line
 
-    // Inside your ShowVm component
     useEffect(() => {
         const fetchData = async () => {
             try {
                 if (id) {
                     const vmData = await props.onShowHandler(id);
-                    // console.log("Received vm data:", vmData);
 
                     if (vmData) {
                         setVm(vmData);
@@ -36,25 +35,48 @@ export default function ShowVm(props) {
 
         if (updatedVm) {
             setVm(updatedVm); // Update the vm state with the new data
-            setEditing(false); // Set isEditing to false after update
+            setEditing(true); // Set isEditing to false after update
         } else {
             // Handle the case where the update was not successful, e.g., display an error message
         }
     }
+
+    // Use useEffect to update VmStatus whenever vm changes
+    useEffect(() => {
+
+    }, [vm]);
 
     return (
         <div>
             {vm ? (
                 <div>
                     <h1>{vm.vm_name}</h1>
-                    <button onClick={() => setEditing(true)}>Unlock</button>
+                    <button
+                        onClick={() => setEditing(!isEditing)}>
+                        {isEditing ? 'Lock' : 'Unlock'}
+
+                    </button>
                     {isEditing ? (
-                        <EditVmForm vm={vm} onUpdateHandler={handleUpdate}/>
+                        <EditVmForm vm={vm}
+                                    onUpdateHandler={handleUpdate}
+                                    onShowHandler={props.onShowHandler}
+                        />
                     ) : null}
                 </div>
+
+                // <div>
+                //     <h1>{vm.vm_name}</h1>
+                //     <EditVmForm vm={vm}
+                //                 onUpdateHandler={handleUpdate}
+                //                 onShowHandler={props.onShowHandler}
+                //     />
+                // </div>
+
             ) : (
                 <p>Loading vm data...</p>
             )}
+
+            <VmStatus vm={vm} />
         </div>
     );
 }

@@ -1,7 +1,13 @@
 // home pc
-const loginUrl = 'http://127.0.0.1:8000/api/login/';
-// office
+// const loginUrl = 'http://127.0.0.1:8000/api/login/';
+const loginUrl = 'http://127.0.0.1:8000/login/';
+
+// office old
 // const loginUrl = 'http://172.23.139.33:8000/api/login/';
+
+// office new
+// const loginUrl = 'http://172.23.123.57:8000/api/login/';
+
 
 export const onLoginButtonClick = async (formData) => {
     //const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;

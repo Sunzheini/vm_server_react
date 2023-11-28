@@ -5,10 +5,17 @@ export const contentFieldUsers = {
 export const contentFieldVms = {
     "vm_status": "Status",
 
-    "is_started": "Started",
-    "is_compiled": "Compiled",
-    "is_downloaded": "Downloaded",
-    "is_online": "Online",
+    // ToDo: undo this next time
+    // "is_started": "Started",
+    // "is_compiled": "Compiled",
+    // "is_downloaded": "Downloaded",
+    // "is_online": "Online",
+
+    "is_started": "Initiate",
+    "is_compiled": "Start Window",
+    "is_downloaded": "Send Command",
+    "is_online": "Shut Down",
+
     "is_running": "Running",
     "is_enabled": "Enabled",
 
