@@ -19,7 +19,7 @@ export default function UserUpdateForm(props) {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className={"form-wrapper"} onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="username">Username: </label>
                 <input
@@ -53,8 +53,8 @@ export default function UserUpdateForm(props) {
                 />
             </div>
 
-            <div>
-                <button type="submit">Update User</button>
+            <div className={"menu-container"}>
+                <button className={"card-btn"} type="submit">Update User</button>
             </div>
         </form>
     );

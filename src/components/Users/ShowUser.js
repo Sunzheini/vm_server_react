@@ -6,21 +6,18 @@ export default function ShowUser(props) {
     const { id } = useParams();
     const [user, setUser] = useState(null);
 
-    const [isEditing, setEditing] = useState(false); // Add this line
+    const [isEditing, setEditing] = useState(false);
 
-    // Inside your ShowUser component
     useEffect(() => {
         const fetchData = async () => {
             try {
                 if (id) {
                     const userData = await props.onShowHandler(id);
-                    // console.log("Received user data:", userData);
 
                     if (userData) {
                         setUser(userData);
                     } else {
-                        // Handle the case where user data is null
-                        // You can show an error message or redirect the user
+                        // Handle the case
                     }
                 }
             } catch (error) {
@@ -36,7 +33,7 @@ export default function ShowUser(props) {
 
         if (updatedUser) {
             setUser(updatedUser); // Update the user state with the new data
-            setEditing(false); // Set isEditing to false after update
+            setEditing(true); // Set isEditing to true after update
         } else {
             // Handle the case where the update was not successful, e.g., display an error message
         }
@@ -47,7 +44,13 @@ export default function ShowUser(props) {
             {user ? (
                 <div>
                     <h1>{user.username}</h1>
-                    <button onClick={() => setEditing(true)}>Unlock</button>
+                    <div className={"menu-container"}>
+                        <button
+                            className={"card-btn"}
+                            onClick={() => setEditing(!isEditing)}>
+                            {isEditing ? 'Lock' : 'Unlock'}
+                        </button>
+                    </div>
                     {isEditing ? (
                         <EditUserForm user={user} onUpdateHandler={handleUpdate}/>
                     ) : null}

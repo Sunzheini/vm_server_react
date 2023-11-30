@@ -20,6 +20,10 @@ const navItemsRegular = [
         {
             id: 2,
             link: <Link to={routes.vms}><i className="fa-solid fa-laptop-code"></i>&nbsp;&nbsp;VMs</Link>,
+        },
+        {
+                id: 3,
+                link: <Link to={routes.pyscripts}><i className="fa-solid fa-scroll"></i>&nbsp;&nbsp;Scripts</Link>,
         }
     ]
 
@@ -40,6 +44,10 @@ const navItemsLoggedIn = [
         {
             id: 3,
             link: <Link to={routes.vms}><i className="fa-solid fa-laptop-code"></i>&nbsp;&nbsp;VMs</Link>,
+        },
+        {
+            id: 4,
+            link: <Link to={routes.pyscripts}><i className="fa-solid fa-scroll"></i>&nbsp;&nbsp;Scripts</Link>,
         }
     ]
 

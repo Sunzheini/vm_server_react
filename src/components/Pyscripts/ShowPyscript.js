@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import EditVmForm from "../Forms/EditVmForm";
-import VmStatus from "./VmStatus";
+import EditPyscriptForm from "../Forms/EditPyscriptForm";
 
-export default function ShowVm(props) {
+export default function ShowPyscript(props) {
     const { id } = useParams();
-    const [vm, setVm] = useState(null);
+    const [pyscript, setPyscript] = useState(null);
 
-    const [isEditing, setEditing] = useState(false); // Add this line
+    const [isEditing, setEditing] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 if (id) {
-                    const vmData = await props.onShowHandler(id);
+                    const pyscriptData = await props.onShowHandler(id);
 
-                    if (vmData) {
-                        setVm(vmData);
+                    if (pyscriptData) {
+                        setPyscript(pyscriptData);
                     } else {
-                        // Show an error message or redirect the vm
+                        // Handle the case
                     }
                 }
             } catch (error) {
@@ -30,26 +29,21 @@ export default function ShowVm(props) {
     }, [id, props]);
 
     const handleUpdate = async (updatedData) => {
-        const updatedVm = await props.onUpdateHandler(id, updatedData);
+        const updatedPyscript = await props.onUpdateHandler(id, updatedData);
 
-        if (updatedVm) {
-            setVm(updatedVm); // Update the vm state with the new data
+        if (updatedPyscript) {
+            setPyscript(updatedPyscript); // Update the pyscript state with the new data
             setEditing(true); // Set isEditing to true after update
         } else {
             // Handle the case where the update was not successful, e.g., display an error message
         }
-    }
-
-    // Use useEffect to update VmStatus whenever vm changes
-    useEffect(() => {
-
-    }, [vm]);
+    };
 
     return (
         <div>
-            {vm ? (
+            {pyscript ? (
                 <div>
-                    <h1>{vm.vm_name}</h1>
+                    <h1>{pyscript.script_name}</h1>
                     <div className={"menu-container"}>
                         <button
                             className={"card-btn"}
@@ -58,18 +52,12 @@ export default function ShowVm(props) {
                         </button>
                     </div>
                     {isEditing ? (
-                        <EditVmForm vm={vm}
-                                    onUpdateHandler={handleUpdate}
-                                    onShowHandler={props.onShowHandler}
-                        />
+                        <EditPyscriptForm pyscript={pyscript} onUpdateHandler={handleUpdate}/>
                     ) : null}
                 </div>
-
             ) : (
-                <p>Loading vm data...</p>
+                <p>Loading pyscript data...</p>
             )}
-
-            <VmStatus vm={vm} />
         </div>
     );
 }

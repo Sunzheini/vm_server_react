@@ -4,12 +4,10 @@ import {getAllVms} from "../../services/vmService";
 
 export default function Home() {
     const [isLoading, setIsLoading] = useState(true)
-
     const [users, setUsers] = useState([])
     const [vms, setVms] = useState([])
 
-
-    // when the Home component mount get all users
+    // when the Home component mounts get all users
     useEffect(() => {
         getAllUsers()
             .then(data => {
@@ -18,7 +16,7 @@ export default function Home() {
             )
     }, [])
 
-    // when the Home component mount get all vms
+    // when the Home component mounts get all vms
     useEffect(() => {
         getAllVms()
             .then(data => {

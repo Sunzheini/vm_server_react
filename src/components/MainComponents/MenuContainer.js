@@ -1,10 +1,6 @@
 import MenuContainerButton from "./MenuContainerButton";
 
-export default function MenuContainer({
-                                          onButtonClick,
-                                          onButtonSelect,
-                                          menuItems,
-                                      }) {
+export default function MenuContainer({onButtonClick, onButtonSelect, menuItems,}) {
     let elementsList = menuItems.map((menuItem) => {
         return <MenuContainerButton
             key={menuItem.id}

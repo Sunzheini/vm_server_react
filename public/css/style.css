@@ -67,6 +67,7 @@ h1.page-title {
   margin: 1rem 0;
 }
 
+/* ----------- The second box with all the content ----------- */
 .total-container {
   background-color: var(--clr-nav-bg);
   width: 50vw;
@@ -102,16 +103,23 @@ h1.page-title {
 
       .card-btn {
         background-color: var(--clr-card-bg);
-        width: 100px;
+        max-width: 180px;
+        min-width: 100px;
         height: 30px;
         border-radius: 1rem;
-        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
+        box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.4);
         border: 2px solid var(--clr-card-border);
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
         gap: 0.3rem;
+        font-size: 1rem;
+        margin-top: 0.2rem;
+      }
+
+      .link-next_to_card-btn {
+        text-decoration: none;
       }
 
       .card-btn:hover {
@@ -132,6 +140,8 @@ h1.page-title {
     margin: 0.2rem 0;
   }
 
+  /* ----------------------------------------------------------- */
+  /* Internal box to wrap all card displays */
   .all-sections-container {
     display: flex;
     flex-direction: row;
@@ -143,6 +153,7 @@ h1.page-title {
     .all-display-content-container {
     }
 
+      /* i.e. box for the individual VMs */
       .card-display {
         display: flex;
         flex-direction: column;
@@ -151,6 +162,7 @@ h1.page-title {
         padding: 0.2rem;
       }
 
+        /* i.e. TwinCAT */
         .card-display-title {
           text-align: center;
           font-size: 1.1rem;
@@ -158,11 +170,125 @@ h1.page-title {
           margin: 0.5rem 0;
         }
 
+        /* All other things related to TwinCAT */
         .card-display-content {
           font-size: 1rem;
           color: var(--clr-nav-a);
         }
+  /* ------------------------------------------------------------ */
+  /* for all forms */
+  .form-wrapper {
+    border: 1px solid var(--clr-nav-white);
+    border-radius: 0.2rem;
+    padding: 0.2rem;
+  }
 
+    .form-wrapper label {
+      font-size: 1rem;
+      color: var(--clr-nav-white);
+    }
+
+    .form-wrapper input {
+      font-size: 1rem;
+      color: var(--clr-nav-a);
+      text-align: center;
+      height: 25px;
+      width: 100%;
+    }
+
+    .form-wrapper select {
+      font-size: 1rem;
+      color: var(--clr-nav-a);
+      text-align: center;
+      width: 100%;
+      height: 25px;
+    }
+
+    .input-file-div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+      .input-file {
+        display: none; /* Hide the default file input button */
+      }
+
+        .input-file-div .custom-file-button {
+          background-color: var(--clr-card-bg);
+          max-width: 180px;
+          min-width: 100px;
+          height: 30px; /* Adjust the height as needed */
+          border-radius: 1rem;
+          box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.4);
+          border: 2px solid var(--clr-card-border);
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          gap: 0.3rem;
+          font-size: 1rem;
+          margin-top: 0.2rem;
+          cursor: pointer;
+          color: black;
+        }
+
+        .custom-file-button:hover {
+          background-color: var(--clr-nav-bg);
+          border: 2px solid var(--clr-nav-white);
+        }
+
+    /* - - - */
+
+    .form-wrapper .input-and_button-wrapper {
+      display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    .form-wrapper .status-text-div {
+        text-align: center;
+        color: var(--clr-nav-white);
+    }
+
+    /* status panel with green lights */
+    .status-container {
+        font-size: 0.8rem;
+        color: var(--clr-nav-a);
+        margin-top: 1rem;
+        border: 1px solid var(--clr-nav-white);
+        border-radius: 0.2rem;
+        padding: 0.3rem;
+    }
+
+      .status-item {
+          display: flex;
+          align-items: center;
+      }
+
+        .status-item span {
+            margin-right: 10px;
+        }
+
+      .status-light-green {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: green;
+          animation: blink 400ms infinite alternate;
+      }
+
+        @keyframes blink {
+          to {
+            opacity: 0;
+          }
+        }
+
+  /* ------------------------------------------------------------ */
   .footer-title {
     text-align: center;
     font-size: 0.8rem;

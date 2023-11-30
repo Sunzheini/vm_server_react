@@ -1,7 +1,7 @@
 export default function AddUserForm(props) {
     return (
         <div className="add-user-form">
-            <form>
+            <form className={"form-wrapper"}>
                 <div>
                     {/* Label */}
                     <label htmlFor="username">Username: </label>
@@ -40,12 +40,12 @@ export default function AddUserForm(props) {
                     />
                 </div>
 
-                <div>
+                <div className={"menu-container"}>
                     {/* Button */}
                     <input
                         type="button"
                         value="Add User"
-                        // onClick={props.onCreateHandler}
+                        className={"card-btn"}
                         onClick={() => {
                             const formData = {
                                 username: document.getElementById('username').value,

@@ -23,7 +23,9 @@ export default function Vms(props) {
 
             <HorizontalDivider/>
 
-            <button onClick={() => setShowForm(!showForm)}>Show / Hide Form</button>
+            <div className={"menu-container"}>
+                <button className={"card-btn"} onClick={() => setShowForm(!showForm)}>Show / Hide Form</button>
+            </div>
 
             {showForm ? (
                 <AddVmForm

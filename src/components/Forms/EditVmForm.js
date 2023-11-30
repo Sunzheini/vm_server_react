@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 
 export default function EditVmForm(props) {
     const [formData, setFormData] = useState(props.vm);
@@ -13,14 +13,9 @@ export default function EditVmForm(props) {
         });
     }
 
-    const handleUpdate = (event) => {
-        props.onUpdateHandler(formData);
-    }
-
     // Specific handles
     // --------------------------------------------------------------------
     const handleUpdateName = async () => {
-        // Assuming you want to update only the "vm_name" field
         await props.onUpdateHandler({
             vm_name: formData.vm_name
         });
@@ -31,7 +26,6 @@ export default function EditVmForm(props) {
     };
 
     const handleMachineIsStarted = async () => {
-        // Assuming you want to update only the "machine_is_started" field
         if (formData.machine_is_started === true) {
             formData.machine_is_started = false;
             formData.program_is_open = false;
@@ -72,7 +66,6 @@ export default function EditVmForm(props) {
         let file_path = null;
 
         if (file) {
-            // Assuming you want to update only the "path_to_selected_program" field
             file_path = fileInput.value; // Use the file input value as the path
             await props.onUpdateHandler({
                 path_to_selected_program: file_path,
@@ -85,7 +78,6 @@ export default function EditVmForm(props) {
     };
 
     const handleRemovePath = async () => {
-        // Assuming you want to update only the "path_to_selected_program" field
         await props.onUpdateHandler({
             path_to_selected_program: '',
         });
@@ -96,7 +88,6 @@ export default function EditVmForm(props) {
     }
 
     const handleProgramIsOpen = async () => {
-        // Assuming you want to update only the "program_is_open" field
         await props.onUpdateHandler({
             program_is_open: !formData.program_is_open
         });
@@ -107,7 +98,6 @@ export default function EditVmForm(props) {
     }
 
     const handleProgramIsCompiled = async () => {
-        // Assuming you want to update only the "program_is_compiled" field
         await props.onUpdateHandler({
             program_is_compiled: true
         });
@@ -118,7 +108,6 @@ export default function EditVmForm(props) {
     }
 
     const handleProgramIsDownloaded = async () => {
-        // Assuming you want to update only the "program_is_downloaded" field
         await props.onUpdateHandler({
             program_is_downloaded: true
         });
@@ -129,7 +118,6 @@ export default function EditVmForm(props) {
     }
 
     const handleConnectionIsOnline = async () => {
-        // Assuming you want to update only the "connection_is_online" field
         await props.onUpdateHandler({
             connection_is_online: !formData.connection_is_online
         });
@@ -140,7 +128,6 @@ export default function EditVmForm(props) {
     }
 
     const handlePlcIsRunning = async () => {
-        // Assuming you want to update only the "plc_is_running" field
         await props.onUpdateHandler({
             plc_is_running: !formData.plc_is_running
         });
@@ -151,7 +138,6 @@ export default function EditVmForm(props) {
     }
 
     const handleEnabled = async () => {
-        // Assuming you want to update only the "is_enabled" field
         await props.onUpdateHandler({
             enabled: !formData.enabled
         });
@@ -164,46 +150,71 @@ export default function EditVmForm(props) {
     // --------------------------------------------------------------------
 
     return (
-        // <form onSubmit={handleSubmit}>
-        <form onSubmit={(e) => e.preventDefault()}>
+        <form
+            className={"form-wrapper"}
+            onSubmit={(e) => e.preventDefault()}
+        >
             <div>
                 <label htmlFor="vm_name">VM Name: </label>
-                <input
-                    type="text"
-                    name="vm_name"
-                    id="vm_name"
-                    value={formData.vm_name}
-                    onChange={handleChange}
-                />
-                <button type="button" onClick={handleUpdateName}>
-                    Update Name
-                </button>
+
+                <div className={"input-and_button-wrapper"}>
+                    <input
+                        type="text"
+                        name="vm_name"
+                        id="vm_name"
+                        value={formData.vm_name}
+                        onChange={handleChange}
+                    />
+                    <div className={"menu-container"}>
+                        <button
+                            className={"card-btn"}
+                            type="button"
+                            onClick={handleUpdateName}>
+                            <i className="fa-solid fa-arrows-rotate"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <div>
-                <button type="button" onClick={handleMachineIsStarted}>
+            <div className={"menu-container"}>
+                <button type="button" className={"card-btn"} onClick={handleMachineIsStarted}>
                     {formData.machine_is_started ? "Stop" : "Start"} Machine
                 </button>
             </div>
+
+            <hr/>
 
             <div>
                 <label
                     htmlFor="path_to_selected_program"
                 >
-                    path: {formData.path_to_selected_program}
+                    Project path: {
+                        formData.path_to_selected_program
+                            ? formData.path_to_selected_program
+                            : "not selected"
+                    }
                 </label>
-                <input
-                    type="file"
-                    name="path_to_selected_program"
-                    id="path_to_selected_program"
-                    disabled={!formData.machine_is_started}
-                    onChange={handlePathToSelectedProgram}
-                />
+
+                <div className="input-file-div">
+                    <label htmlFor="path_to_selected_program" className="custom-file-button">
+                        Choose File
+                    </label>
+                    <input
+                        type="file"
+                        name="path_to_selected_program"
+                        id="path_to_selected_program"
+                        className="input-file"
+                        disabled={!formData.machine_is_started}
+                        onChange={handlePathToSelectedProgram}
+                    />
+                </div>
+
             </div>
 
-            <div>
+            <div className={"menu-container"}>
                 <button
                     type="button"
+                    className={"card-btn"}
                     onClick={handleRemovePath}
                     disabled={!formData.machine_is_started || !formData.path_to_selected_program}
                 >
@@ -211,9 +222,12 @@ export default function EditVmForm(props) {
                 </button>
             </div>
 
-            <div>
+            <hr/>
+
+            <div className={"menu-container"}>
                 <button
                     type="button"
+                    className={"card-btn"}
                     onClick={handleProgramIsOpen}
                     disabled={!formData.machine_is_started || !formData.path_to_selected_program}
                 >
@@ -221,9 +235,10 @@ export default function EditVmForm(props) {
                 </button>
             </div>
 
-            <div>
+            <div className={"menu-container"}>
                 <button
                     type="button"
+                    className={"card-btn"}
                     onClick={handleProgramIsCompiled}
                     disabled={!formData.machine_is_started|| !formData.path_to_selected_program || !formData.program_is_open}
                 >
@@ -231,9 +246,10 @@ export default function EditVmForm(props) {
                 </button>
             </div>
 
-            <div>
+            <div className={"menu-container"}>
                 <button
                     type="button"
+                    className={"card-btn"}
                     onClick={handleProgramIsDownloaded}
                     disabled={!formData.machine_is_started|| !formData.path_to_selected_program|| !formData.program_is_open || !formData.program_is_compiled}
                 >
@@ -241,9 +257,12 @@ export default function EditVmForm(props) {
                 </button>
             </div>
 
-            <div>
+            <hr/>
+
+            <div className={"menu-container"}>
                 <button
                     type="button"
+                    className={"card-btn"}
                     onClick={handleConnectionIsOnline}
                     disabled={!formData.machine_is_started}
                 >
@@ -251,9 +270,10 @@ export default function EditVmForm(props) {
                 </button>
             </div>
 
-            <div>
+            <div className={"menu-container"}>
                 <button
                     type="button"
+                    className={"card-btn"}
                     onClick={handlePlcIsRunning}
                     disabled={!formData.machine_is_started}
                 >
@@ -261,9 +281,10 @@ export default function EditVmForm(props) {
                 </button>
             </div>
 
-            <div>
+            <div className={"menu-container"}>
                 <button
                     type="button"
+                    className={"card-btn"}
                     onClick={handleEnabled}
                     disabled={!formData.machine_is_started}
                 >
@@ -271,13 +292,12 @@ export default function EditVmForm(props) {
                 </button>
             </div>
 
-            {/*<div>*/}
-            {/*    <button type="submit" onClick={handleUpdate}>*/}
-            {/*        Update VM*/}
-            {/*    </button>*/}
-            {/*</div>*/}
+            <hr/>
 
-            {props.vm.message_what_changed_last && <div>{props.vm.message_what_changed_last}</div>}
+            {props.vm.message_what_changed_last &&
+                <div className={"status-text-div"}>
+                    {props.vm.message_what_changed_last}
+                </div>}
         </form>
     );
 }

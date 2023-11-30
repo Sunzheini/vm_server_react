@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import {vmTypesUrl} from "../../routes/urlsList";
 
 
 export default function AddVmForm(props) {
     const [vmTypes, setVmTypes] = useState([]);
     const [formData, setFormData] = useState({
         vm_name: '',
-        vm_type: '', // Set a default value or leave it empty based on your requirements
+        vm_type: '',
     });
 
     useEffect(() => {
         // Fetch VM types from the backend
         const fetchVmTypes = async () => {
             try {
-                const response = await fetch('http://127.0.0.1:8000/virtual-machines/vm-types/');
+                const response = await fetch(vmTypesUrl);
                 if (response.ok) {
                     const data = await response.json();
                     setVmTypes(data); // Update to setVmTypes(data) directly
@@ -29,7 +30,7 @@ export default function AddVmForm(props) {
 
     return (
         <div className="add-vm-form">
-            <form>
+            <form className={"form-wrapper"}>
                 <div>
                     {/* Label */}
                     <label htmlFor="vm_name">VM Name: </label>
@@ -59,11 +60,12 @@ export default function AddVmForm(props) {
                     </select>
                 </div>
 
-                <div>
+                <div className={"menu-container"}>
                     {/* Button */}
                     <input
                         type="button"
                         value="Add VM"
+                        className={"card-btn"}
                         // onClick={props.onCreateHandler}
                         onClick={() => {
                             const formData = {

@@ -15,11 +15,6 @@ import {
   deleteUser,
   addUser,
 } from './services/userService';
-import ShowUser from "./components/Users/ShowUser";
-import {
-    contentFieldUsers,
-    contentFieldVms,
-} from "./contexts/ContentFields";
 import {
     getAllVms,
     showVm,
@@ -27,9 +22,25 @@ import {
     deleteVm,
     addVm,
 } from "./services/vmService";
+import {
+    getAllPyscripts,
+    addPyscript,
+    showPyscript,
+    editPyscript,
+    deletePyscript,
+} from "./services/pyService";
+import ShowUser from "./components/Users/ShowUser";
+import {
+    contentFieldPyscripts,
+    contentFieldUsers,
+    contentFieldVms,
+} from "./contexts/ContentFields";
 import Vms from "./components/Vms/Vms";
 import ShowVm from "./components/Vms/ShowVm";
 import Home from "./components/Home/Home";
+import {loginUrl} from "./routes/urlsList";
+import Pyscripts from "./components/Pyscripts/Pyscripts";
+import ShowPyscript from "./components/Pyscripts/ShowPyscript";
 
 
 function App() {
@@ -39,7 +50,7 @@ function App() {
     const [users, setUsers] = React.useState([]);
 
     // useEffect is a hook that runs when the component mounts
-    // we fetch users when the component mounts
+    // fetch users when the component mounts
     React.useEffect(() => {
         updateUserList();
 
@@ -86,8 +97,6 @@ function App() {
                     )
                 );
 
-                console.log('Updated users state:', users)
-
                 // Call the function to update the user list
                 updateUserList();
 
@@ -125,6 +134,7 @@ function App() {
             console.error('Fetch error:', error);
         }
     };
+
     // -------------------------------------------------------------
     // Vms
     // -------------------------------------------------------------
@@ -209,44 +219,116 @@ function App() {
             console.error('Fetch error:', error);
         }
     }
+
+    // -------------------------------------------------------------
+    // PyScripts
+    // -------------------------------------------------------------
+    const [pyscripts, setPyscripts] = React.useState([]);
+
+    // Use useEffect to fetch pyscripts when the component mounts
+    React.useEffect(() => {
+        updatePyScriptList();
+    }, []);
+
+    const updatePyScriptList = () => {
+        getAllPyscripts()
+            .then(data => setPyscripts(data))
+            .catch(error => console.error('Fetch error:', error));
+    }
+
+    const getPyscriptById = async (id) => {
+        try {
+            if (!id) {
+                console.error('Invalid id:', id);
+                return null; // Return null for invalid IDs
+            }
+
+            const pyscript = await showPyscript(id);
+            return pyscript; // Return the pyscript data
+        } catch (error) {
+            console.error('Fetch error:', error);
+            return null; // Handle errors and return null
+        }
+    }
+
+    const updatePyscript = async (id, updatedData) => {
+        try {
+            const updatedPyscript = await editPyscript(id, updatedData);
+
+            console.log('Updated pyscript:', updatedPyscript)
+
+            if (updatedPyscript) {
+                // Update the pyscripts state with the new data
+                setPyscripts((prevPyscripts) =>
+                    prevPyscripts.map((pyscript) =>
+                        pyscript.id === id ? {...pyscript, ...updatedPyscript} : pyscript
+                    )
+                );
+
+                console.log('Updated pyscripts state:', pyscripts)
+
+                // Call the function to update the pyscript list
+                updatePyScriptList();
+
+                return updatedPyscript; // Return the updated pyscript data
+            } else {
+                return null; // Handle errors and return null
+            }
+        } catch (error) {
+            console.error('Fetch error:', error);
+            return null; // Handle errors and return null
+        }
+    }
+
+    const handleDeletePyscript = async (id) => {
+        try {
+            await deletePyscript(id);
+            // Handle any post-deletion tasks
+            console.log('Pyscript deleted:', id);
+            // Update the pyscripts state to reflect the deletion
+            setPyscripts((prevPyscripts) => prevPyscripts.filter((pyscript) => pyscript.id !== id));
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    }
+
+    const createPyscript = async (newPyscriptData) => {
+        try {
+            console.log('Creating pyscript with data:', newPyscriptData);
+            const createdPyscript = await addPyscript(newPyscriptData);
+            // Do something with the created pyscript data
+            console.log('Created Pyscript:', createdPyscript);
+            // Update the pyscripts state to include the newly created pyscript
+            setPyscripts((prevPyscripts) => [...prevPyscripts, createdPyscript]);
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    }
+
     // -------------------------------------------------------------
     // Login
     // -------------------------------------------------------------
     const navigate = useNavigate();
     const [auth, setAuth] = React.useState({});
 
-    // home pc
-    // const loginUrl = 'http://127.0.0.1:8000/api/login/';
-    const loginUrl = 'http://127.0.0.1:8000/login/';
-
-    // office old
-    // const loginUrl = 'http://172.23.139.33:8000/api/login/';
-
-    // office new
-    // const loginUrl = 'http://172.23.123.57:8000/api/login/';
-
-
-    console.log("Auth:", auth)
-
     const isAuthenticated = () => {
         return !!auth.result.token;
     }
 
     const onLoginButtonClick = async (formData) => {
-        console.log("Form Data in Function:", formData);
-
+        //const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
         try {
             const response = await fetch(loginUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    //'X-CSRFToken': csrfToken,
                 },
                 body: JSON.stringify(formData),
             });
 
             if (response.ok) {
                 const result = await response.json();
-                console.log("Login success. Result:", result);
 
                 // setAuth({token: result.token});
                 setAuth({result, isAuthenticated});
@@ -369,6 +451,43 @@ function App() {
                                         onShowHandler={getVmById}
                                         onUpdateHandler={updateVm}
                                         vmId={useParams().id}
+                                    />
+                                </div>
+                            </div>
+                        }
+                    />
+
+                    <Route
+                        path={routes.pyscripts}
+                        element={
+                            <div>
+                                <PageTitle title="Python Scripts"/>
+
+                                <div className="total-container">
+                                    <Pyscripts
+                                        data={pyscripts}
+                                        onShowHandler={getPyscriptById}
+                                        onUpdateHandler={updatePyscript}
+                                        onDeleteHandler={handleDeletePyscript}
+                                        onCreateHandler={createPyscript}
+                                        contentField={contentFieldPyscripts}
+                                    />
+                                </div>
+                            </div>
+                        }
+                    />
+
+                    <Route
+                        path={routes.pyscript}
+                        element={
+                            <div>
+                                <PageTitle title="Python Script"/>
+
+                                <div className="total-container">
+                                    <ShowPyscript
+                                        onShowHandler={getPyscriptById}
+                                        onUpdateHandler={updatePyscript}
+                                        pyscriptId={useParams().id}
                                     />
                                 </div>
                             </div>

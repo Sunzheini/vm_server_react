@@ -1,16 +1,16 @@
 import AllSectionsContainer from "../MainComponents/AllSectionsContainer";
 import HorizontalDivider from "../MainComponents/HorizontalDivider";
-import AddUserForm from "../Forms/AddUserForm";
+import AddPyscriptForm from "../Forms/AddPyscriptForm";
 import {useState} from "react";
 
-export default function Users(props) {
+export default function Pyscripts(props) {
     const [showForm, setShowForm] = useState(false);
 
     return (
         <div>
             <AllSectionsContainer
                 data={props.data}
-                titleField="username"
+                titleField="script_name"
 
                 contentField={props.contentField}
                 onDeleteHandler={props.onDeleteHandler}
@@ -18,7 +18,7 @@ export default function Users(props) {
                 onUpdateHandler={props.onUpdateHandler}
                 onCreateHandler={props.onCreateHandler}
 
-                page="user"
+                page="pyscript"
             />
 
             <HorizontalDivider/>
@@ -28,7 +28,7 @@ export default function Users(props) {
             </div>
 
             {showForm ? (
-                <AddUserForm
+                <AddPyscriptForm
                     onCreateHandler={props.onCreateHandler}
                 />
             ) : null}

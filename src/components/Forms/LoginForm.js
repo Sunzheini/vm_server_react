@@ -30,11 +30,10 @@ export default function LoginForm(props) {
             setLoading(true);
             setError(null);
 
-            // const result = await props.onLoginButtonClick(formData);
             const result = await props.onLoginButtonClick(formData);
 
             if (result.token) {
-                // Redirect or perform actions for successful login
+                // Redirect / perform actions for a successful login
             } else {
                 setError("Wrong credentials. Please try again.");
             }
@@ -47,9 +46,9 @@ export default function LoginForm(props) {
 
     return (
         <div className="login-form">
-            <form>
+            <form className={"form-wrapper"}>
                 <div>
-                    <label htmlFor="username">Username:</label>
+                    <label htmlFor="username">Username: </label>
                     <input
                         type="text"
                         name="username"
@@ -61,7 +60,7 @@ export default function LoginForm(props) {
                 </div>
 
                 <div>
-                    <label htmlFor="password">Password:</label>
+                    <label htmlFor="password">Password: </label>
                     <input
                         type="password"
                         name="password"
@@ -74,9 +73,10 @@ export default function LoginForm(props) {
 
                 {error && <div className="error">{error}</div>}
 
-                <div>
+                <div className={"menu-container"}>
                     <input
                         type="button"
+                        className={"card-btn"}
                         value={loading ? "Logging in..." : "Login"}
                         onClick={handleSubmit}
                         disabled={loading}

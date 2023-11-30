@@ -7,4 +7,7 @@ export const routes = {
 
     'vms': '/vms',
     'vm': '/vm/:id',
+
+    'pyscripts': '/pyscripts',
+    'pyscript': '/pyscript/:id',
 }

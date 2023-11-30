@@ -5,8 +5,9 @@ import React, {useContext} from "react";
 import {CustomContext} from "../../contexts/CustomContext";
 
 export default function AllSectionsContainer(props) {
-    const isUserPage = props.page === "user"; // Replace "user" with the appropriate page name
-    const isVMPage = props.page === "vm"; // Replace "vm" with the appropriate page name
+    const isUserPage = props.page === "user";
+    const isVMPage = props.page === "vm";
+    const isPyscriptPage = props.page === "pyscript";
     const {result, isAuthenticated} = useContext(CustomContext);
 
     return (
@@ -17,6 +18,9 @@ export default function AllSectionsContainer(props) {
 
                         {props.data.map((item) => (
                             <div key={item.id}>
+                                 {/*check if this is not the first item in the list */}
+                                {item.id !== props.data[0].id && <hr className={"horizontal-divider"}/>}
+
                                 <CardDisplayTitle title={item[props.titleField]} />
                                 <CardDisplayContent
                                     content={Object.keys(props.contentField).map((field) => (
@@ -30,23 +34,39 @@ export default function AllSectionsContainer(props) {
                                     ))}
                                 />
 
-                                 {/*delete button*/}
                                 {/* show only if auth */}
-                                {/*<button onClick={() => props.onDeleteHandler(item.id)}>Delete</button>*/}
-                                {isAuthenticated && <button onClick={() => props.onDeleteHandler(item.id)}>Delete</button>}
+                                {isAuthenticated &&
+                                    <div className={"menu-container"}>
+                                        <button className={"card-btn"} onClick={() => props.onDeleteHandler(item.id)}>Delete</button>
+                                    </div>
+                                }
 
-                                {
-                                    isUserPage && (
-                                        <Link to={`/user/${item.id}`}>
-                                            <button>Update User</button>
+                                {isUserPage &&
+                                    (
+                                        <Link className={"link-next_to_card-btn"} to={`/user/${item.id}`}>
+                                            <div className={"menu-container"}>
+                                                <button className={"card-btn"}>Update User</button>
+                                            </div>
                                         </Link>
                                     )
                                 }
 
-                                {
-                                    isVMPage && (
-                                        <Link to={`/vm/${item.id}`}>
-                                            <button>Update VM</button>
+                                {isVMPage &&
+                                    (
+                                        <Link className={"link-next_to_card-btn"} to={`/vm/${item.id}`}>
+                                            <div className={"menu-container"}>
+                                                <button className={"card-btn"}>Update VM</button>
+                                            </div>
+                                        </Link>
+                                    )
+                                }
+
+                                {isPyscriptPage &&
+                                    (
+                                        <Link className={"link-next_to_card-btn"} to={`/pyscript/${item.id}`}>
+                                            <div className={"menu-container"}>
+                                                <button className={"card-btn"}>Update Pyscript</button>
+                                            </div>
                                         </Link>
                                     )
                                 }
