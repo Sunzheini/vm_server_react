@@ -7,21 +7,30 @@ export const getAllPyscripts = async () => {
 }
 
 export const addPyscript = async (data) => {
+    console.log('data:', data);
+
+    const formData = new FormData();
+    formData.append('script_name', data.script_name);
+    // check if there is a file to upload
+    if (data.script_file) {
+        formData.append('script_file', data.script_file);
+    }
+
     const response = await fetch(addPyscriptUrl, {
         method: 'POST',
+        body: formData,
         headers: {
-            'Content-Type': 'application/json'
+            // Include any additional headers if needed
         },
-        body: JSON.stringify(data),
     });
+
     const result = await response.json();
     return result;
-}
+};
 
 export const showPyscript = async (id) => {
     const response = await fetch(showPyscriptUrl + id + '/');
     const result = await response.json();
-    // console.log('Received pyscript data from showPyscript:', result); // Add this line
     return result;
 }
 

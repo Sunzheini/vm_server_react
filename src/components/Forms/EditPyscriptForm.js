@@ -13,60 +13,72 @@ export default function EditPyscriptForm(props) {
         });
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        props.onUpdateHandler(formData);
+        // Specific handles
+    // --------------------------------------------------------------------
+    const handleUpdateName = async () => {
+        await props.onUpdateHandler({
+            script_name: formData.script_name
+        });
+        const updatedPyscript = await props.onShowHandler(props.pyscript.id); // Fetch updated data
+        if (updatedPyscript) {
+            setFormData(updatedPyscript); // Update the form data with the new data
+        }
     };
 
+    const handleScriptIsExecuted = async () => {
+        await props.onUpdateHandler({
+            script_is_executed: true
+        });
+        const updatedPyscript = await props.onShowHandler(props.pyscript.id); // Fetch updated data
+        if (updatedPyscript) {
+            setFormData(updatedPyscript); // Update the form data with the new data
+        }
+    }
+
     return (
-        <form className={"form-wrapper"} onSubmit={handleSubmit}>
+        <form
+            className={"form-wrapper"}
+            onSubmit={(e) => e.preventDefault()}
+        >
             <div>
-                <label htmlFor="name">Name: </label>
-                <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                />
-            </div>
+                <label htmlFor="script_name">Script Name: </label>
 
-            <div>
-                <label htmlFor="description">Description: </label>
-                <input
-                    type="text"
-                    name="description"
-                    id="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                />
-            </div>
-
-            <div>
-                <label htmlFor="script">Script: </label>
-                <input
-                    type="text"
-                    name="script"
-                    id="script"
-                    value={formData.script}
-                    onChange={handleChange}
-                />
-            </div>
-
-            <div>
-                <label htmlFor="is_active">Active: </label>
-                <input
-                    type="checkbox"
-                    name="is_active"
-                    id="is_active"
-                    checked={formData.is_active}
-                    onChange={handleChange}
-                />
+                <div className={"input-and_button-wrapper"}>
+                    <input
+                        type="text"
+                        name="script_name"
+                        id="script_name"
+                        value={formData.script_name}
+                        onChange={handleChange}
+                    />
+                    <div className={"menu-container"}>
+                        <button
+                            className={"card-btn"}
+                            type="button"
+                            onClick={handleUpdateName}>
+                            <i className="fa-solid fa-arrows-rotate"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div className={"menu-container"}>
-                <button className={"card-btn"} type="submit">Update Pyscript</button>
+                <button
+                    type="button"
+                    className={"card-btn"}
+                    onClick={handleScriptIsExecuted}
+                    // disabled={!formData.path_to_selected_program}
+                >
+                    {formData.script_is_executed} Execute Script
+                </button>
             </div>
+
+            <hr/>
+
+            {props.pyscript.script_status &&
+                <div className={"status-text-div"}>
+                    {props.pyscript.script_status}
+                </div>}
         </form>
     );
 }

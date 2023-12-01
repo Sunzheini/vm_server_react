@@ -29,7 +29,9 @@ export default function AllSectionsContainer(props) {
                                             style={
                                             item[field] ? {color: 'green'} : {color: 'grey'}
                                         }>
-                                            {props.contentField[field] + ': ' + item[field]}
+                                            {/*{props.contentField[field] + ': ' + item[field]}*/}
+                                            {props.contentField[field] + ': '
+                                                + (item[field] ? item[field] : 'No')}
                                         </div>
                                     ))}
                                 />

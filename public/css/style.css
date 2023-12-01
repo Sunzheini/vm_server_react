@@ -54,7 +54,27 @@ body {
         color: var(--clr-nav-a);
         text-decoration: none;
         font-weight: bold;
+        font-size: 1rem;
       }
+
+        /* implement responsive design */
+        @media (max-width: 1000px) {
+            .li-nav-item a {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 870px) {
+            .li-nav-item a {
+                font-size: 0.7rem;
+            }
+        }
+
+        @media (max-width: 800px) {
+          .li-nav-item a {
+            font-size: 0.6rem;
+          }
+        }
 
       .li-nav-item a:hover {
         color: var(--clr-nav-white);

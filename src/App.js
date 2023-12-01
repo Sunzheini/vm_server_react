@@ -3,7 +3,7 @@ import React from 'react'
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import { CustomContext, } from './contexts/CustomContext'
-import {Routes, Route, Link, useParams, useNavigate } from 'react-router-dom'
+import {Routes, Route, useParams, useNavigate } from 'react-router-dom'
 import PageTitle from "./components/MainComponents/PageTitle";
 import Login from "./components/Login/Login";
 import Users from "./components/Users/Users";
@@ -41,6 +41,8 @@ import Home from "./components/Home/Home";
 import {loginUrl} from "./routes/urlsList";
 import Pyscripts from "./components/Pyscripts/Pyscripts";
 import ShowPyscript from "./components/Pyscripts/ShowPyscript";
+import ErrorBoundary from "./components/ErrorBoundary";
+import NotFound from "./components/NotFound";
 
 
 function App() {
@@ -354,6 +356,7 @@ function App() {
     // -------------------------------------------------------------
     return (
         // Make SampleContext available to all components in the app
+        <ErrorBoundary>
         <CustomContext.Provider value={auth}>
 
         <div className="App">
@@ -493,13 +496,16 @@ function App() {
                             </div>
                         }
                     />
+                    {/* Route for 404 Not Found */}
+                    <Route component={NotFound} />
                 </Routes>
             </main>
 
             <Footer content="&copy; 2023"/>
-
         </div>
+
         </CustomContext.Provider>
+        </ErrorBoundary>
     );
 }
 

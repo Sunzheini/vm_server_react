@@ -39,6 +39,10 @@ export default function ShowPyscript(props) {
         }
     };
 
+    useEffect(() => {
+
+    }, [pyscript]);
+
     return (
         <div>
             {pyscript ? (
@@ -52,7 +56,11 @@ export default function ShowPyscript(props) {
                         </button>
                     </div>
                     {isEditing ? (
-                        <EditPyscriptForm pyscript={pyscript} onUpdateHandler={handleUpdate}/>
+                        <EditPyscriptForm
+                            pyscript={pyscript}
+                            onUpdateHandler={handleUpdate}
+                            onShowHandler={props.onShowHandler}
+                        />
                     ) : null}
                 </div>
             ) : (

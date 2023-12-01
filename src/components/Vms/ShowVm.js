@@ -58,9 +58,10 @@ export default function ShowVm(props) {
                         </button>
                     </div>
                     {isEditing ? (
-                        <EditVmForm vm={vm}
-                                    onUpdateHandler={handleUpdate}
-                                    onShowHandler={props.onShowHandler}
+                        <EditVmForm
+                            vm={vm}
+                            onUpdateHandler={handleUpdate}
+                            onShowHandler={props.onShowHandler}
                         />
                     ) : null}
                 </div>

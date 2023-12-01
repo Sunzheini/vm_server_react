@@ -1,62 +1,56 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-const UploadForm = () => {
-    const [file, setFile] = useState(null);
-    const [scriptName, setScriptName] = useState('');
 
-    const handleFileChange = (event) => {
-        const selectedFile = event.target.files[0];
-        setFile(selectedFile);
-    };
-
-    const handleScriptNameChange = (event) => {
-        const name = event.target.value;
-        setScriptName(name);
-    };
-
-    const handleFormSubmit = async (event) => {
-        event.preventDefault();
-
-        if (!file) {
-            alert('Please select a file');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('script_name', scriptName);
-        formData.append('script_file', file);
-
-        try {
-            const response = await fetch('http://127.0.0.1:8000/py-scripts/add-py-script/', {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (response.ok) {
-                alert('File uploaded successfully');
-            } else {
-                alert('Failed to upload file');
-            }
-        } catch (error) {
-            console.error('Error uploading file:', error);
-        }
-    };
+export default function AddPyscriptForm(props) {
+    const [formData, setFormData] = useState({
+        vm_name: '',
+        script_file: null,
+    });
 
     return (
-        <form onSubmit={handleFormSubmit}>
-            <label>
-                Script Name:
-                <input type="text" value={scriptName} onChange={handleScriptNameChange}/>
-            </label>
-            <br/>
-            <label>
-                Select File:
-                <input type="file" onChange={handleFileChange}/>
-            </label>
-            <br/>
-            <button type="submit">Upload</button>
-        </form>
-    );
-};
+        <div className="add-vm-form">
+            <form className={"form-wrapper"} encType="multipart/form-data" method="POST">
+                <div>
+                    {/* Label */}
+                    <label htmlFor="script_name">Py Script Name: </label>
 
-export default UploadForm;
+                    {/* Input */}
+                    <input
+                        type="text"
+                        name="script_name"
+                        id="script_name"
+                        placeholder="Enter Py Script name"
+                    />
+                </div>
+
+                <div>
+                    {/* Label for file input */}
+                    <label htmlFor="script_file">Script File: </label>
+
+                    {/* Input for file */}
+                    <input
+                        type="file"
+                        name="script_file"
+                        id="script_file"
+                    />
+                </div>
+
+                <div className={"menu-container"}>
+                    {/* Button */}
+                    <input
+                        type="button"
+                        value="Add Py Script"
+                        className={"card-btn"}
+                        onClick={() => {
+                            const formData = {
+                                script_name: document.getElementById('script_name').value,
+                                script_file: document.getElementById('script_file').files[0],
+                            };
+                            props.onCreateHandler(formData);
+                        }}
+                    />
+                </div>
+            </form>
+        </div>
+    );
+}
