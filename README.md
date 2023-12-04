@@ -1,70 +1,33 @@
-# Getting Started with Create React App
+## Frontend for the Virtual Machines Control REST Server
+This is a project with React created using Pycharm IDE.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Functionalities
+The backend is a Django server, and the 2 have the following functionalities:
+1. The React Server is accessed with http://localhost:3000/, not https!
+2. Login functionality. Only logged-in users have access to delete items. Only admin users 
+can access the users app.
+3. Virtual machine control functionality. The user can create a new virtual machine of
+a predefined type and the edit its functions, i.e. start, stop and give different commands
+to the IDEs installed on the virtual machines.
+4. Python scripts execution functionality. The user can upload a python script and execute it
+on the machine, which hosts the django server.
 
-## Available Scripts
 
-In the project directory, you can run:
+# Running the project
+In order to run the project you must have both the frontend and the backend running. read
+the backend Readme.md file for more information regarding the backend setup.
+You have to adjust routes/urlsList.js file to match your case, again synchronizing
+with the backend.
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Structure
+This React project has a App.js file, which contains the main logic and redirects to
+other components, variables or functions as needed. Also:
+1. The components folder contains all the components used in the project, which are 
+divided in sections.
+2. The public folder contains the index.html file, as well as the css file.
+3. The context folder contains the context files, which are used to pass data between
+components.
+4. The routes folder contains the routes files, as well as the URLs file.
+5. The services folder contains the services files, related to the 3 main functionalities
+which are used to make requests to the backend.
